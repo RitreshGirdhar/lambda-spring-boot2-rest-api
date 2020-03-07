@@ -28,12 +28,15 @@ mvn clean package
 
 * Aws S3 
 ```
-aws s3 cp target/lambda-spring-boot2-rest-api.jar s3://spring-boot-lambda-rest/
+aws s3api create-bucket --bucket my-bucket122 --region us-east-1
+//aws s3 cp target/lambda-spring-boot2-rest-api.jar s3://spring-boot-lambda-rest/
 ```
 
 ```
 aws cloudformation package --template-file sam.yaml --output-template-file target/output-sam.yaml --s3-bucket spring-boot-lambda-0403
+aws cloudformation deploy --template-file target/output-sam.yaml --stack-name spring-boot-lambda --capabilities CAPABILITY_IAM
 ```
+
 
 
 * Let's build via SAM
@@ -56,7 +59,7 @@ Commands you can use next
 [*] Deploy: sam deploy --guided
     
 root$ sam local invoke
-Invoking com.aws.demo.LambdaMethodHandler::handleRequest (java8)
+Invoking com.aws.demo.handler.LambdaMethodHandler::handleRequest (java8)
 
 Fetching lambci/lambda:java8 Docker container image............................................................................................................................................................................................................................................
 Mounting /...../lambda-spring-boot2-rest-api/.aws-sam/build/HelloWorldFunction as /var/task:ro,delegated inside runtime container

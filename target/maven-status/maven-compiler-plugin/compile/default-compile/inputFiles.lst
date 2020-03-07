@@ -1,3 +1,5 @@
-/Users/ritgirdh/Desktop/codebase/study/lambda-spring-boot2-rest-api/src/main/java/com/aws/demo/LambdaMethodHandler.java
-/Users/ritgirdh/Desktop/codebase/study/lambda-spring-boot2-rest-api/src/main/java/com/aws/demo/GatewayResponse.java
+/Users/ritgirdh/Desktop/codebase/study/lambda-spring-boot2-rest-api/src/main/java/com/aws/demo/controller/config/MvcConfig.java
 /Users/ritgirdh/Desktop/codebase/study/lambda-spring-boot2-rest-api/src/main/java/com/aws/demo/DemoApplication.java
+/Users/ritgirdh/Desktop/codebase/study/lambda-spring-boot2-rest-api/src/main/java/com/aws/demo/handler/LambdaMethodHandler.java
+/Users/ritgirdh/Desktop/codebase/study/lambda-spring-boot2-rest-api/src/main/java/com/aws/demo/controller/HelloController.java
+/Users/ritgirdh/Desktop/codebase/study/lambda-spring-boot2-rest-api/src/main/java/com/aws/demo/model/GatewayResponse.java
