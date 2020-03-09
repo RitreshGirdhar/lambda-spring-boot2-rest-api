@@ -1,0 +1,5 @@
+com/aws/demo/model/Message.class
+com/aws/demo/handler/LambdaMethodHandler.class
+com/aws/demo/DemoApplication.class
+com/aws/demo/handler/StreamLambdaHandler.class
+com/aws/demo/controller/HelloController.class

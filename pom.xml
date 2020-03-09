@@ -34,7 +34,7 @@
 
 		<dependency>
 			<groupId>com.amazonaws.serverless</groupId>
-			<artifactId>aws-serverless-java-container-spring</artifactId>
+			<artifactId>aws-serverless-java-container-springboot2</artifactId>
 			<version>1.4</version>
 		</dependency>
 
@@ -70,7 +70,7 @@
 	</dependencies>
 
 	<build>
-<!--		<finalName>lambda-spring-boot2-rest-api</finalName>-->
+		<finalName>lambda-rest-api</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -85,13 +85,13 @@
 						<goals>
 							<goal>shade</goal>
 						</goals>
-<!--						<configuration>-->
-<!--							<artifactSet>-->
-<!--								<excludes>-->
-<!--									<exclude>org.apache.tomcat.embed:*</exclude>-->
-<!--								</excludes>-->
-<!--							</artifactSet>-->
-<!--						</configuration>-->
+						<configuration>
+							<artifactSet>
+								<excludes>
+									<exclude>org.apache.tomcat.embed:*</exclude>
+								</excludes>
+							</artifactSet>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
