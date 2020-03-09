@@ -1,76 +1,97 @@
-# Aws-lambda
-WIP
+# Spring Boot2 Aws lambda Function Rest Api
 
 ### Pre-requisite
 * Basic knowledge of AWS/S3/Api/Gateway/Spring boot/Git
-* Follow below steps to set sam client on mac machine then verify sam version
-```
-brew tap aws/tap
-brew install aws-sam-cli
-```
-```
-root$ sam --version
-SAM CLI, version 0.43.0
-```
+* Follow below steps to set Up Api and Lambda function.
 
-### Steps to build , deploy and test are :
+In this demo application , i am sharing the basic knowledge to set up Api and configure Lambda function. There are easy way to do that by using aws-cli's , will show in another example.
+ 
+### Follow Steps to build , deploy and test are :
 
-* Checkout demo code
+* Checkout Repo code
 ```
-git clone 
+git clone https://github.com/RitreshGirdhar/lambda-spring-boot2-rest-api.git
 cd lambda-spring-boot2-rest-api
 ```
 
-* maven build code on local
+* Build code on local
 ```
-mvn clean package
-```
-
-* Aws S3 
-```
-aws s3api create-bucket --bucket my-bucket122 --region us-east-1
-//aws s3 cp target/lambda-spring-boot2-rest-api.jar s3://spring-boot-lambda-rest/
+mvn clean package shade:shade
 ```
 
+* Create Bucket in S3 i am creating bucket with name lambda-test-ritresh-demo and uploading target/lambda-rest-api.jar there.
 ```
-aws cloudformation package --template-file sam.yaml --output-template-file target/output-sam.yaml --s3-bucket spring-boot-lambda-0403
-aws cloudformation deploy --template-file target/output-sam.yaml --stack-name spring-boot-lambda --capabilities CAPABILITY_IAM
+aws s3 cp target/lambda-rest-api.jar s3://lambda-test-ritresh-demo/
 ```
+![Bucket creation](images/bucket-created.png)
 
+* Let's Create Message resource api using AWS Api Gateway.
+ ![Message-resource-get-api.png  ](images/Message-resource-get-api.png  )
+  
+* While testing you could monitor or debug requests logs under cloudwatch.
+  ![CloudWatch logs List](images/Cloudwatch-logs-list.png)
+  ![CloudWatch Logs view](images/Cloudwatch-logs-view.png)
 
+* Let's Deploy Function and get the production url
+ ![Deploy aws function](images/deploy.png)
+ ![Deploy aws function](images/deploy-prod-url.png)
+ 
+* Let's test lambda function on production by invoking the prod url 
+````
+curl -ivk https://7uoimcy0wa.execute-api.ap-south-1.amazonaws.com/lambda-boot-test/message
+*   Trying 13.127.88.87...
+* TCP_NODELAY set
+* Connected to 7uoimcy0wa.execute-api.ap-south-1.amazonaws.com (13.127.88.87) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
+* successfully set certificate verify locations:
+*   CAfile: /etc/ssl/cert.pem
+  CApath: none
+* TLSv1.2 (OUT), TLS handshake, Client hello (1):
+* TLSv1.2 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS change cipher, Client hello (1):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: CN=*.execute-api.ap-south-1.amazonaws.com
+*  start date: Sep 27 00:00:00 2019 GMT
+*  expire date: Oct 27 12:00:00 2020 GMT
+*  issuer: C=US; O=Amazon; OU=Server CA 1B; CN=Amazon
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x7faf8e803c00)
+> GET /lambda-boot-test/message HTTP/2
+> Host: 7uoimcy0wa.execute-api.ap-south-1.amazonaws.com
+> User-Agent: curl/7.54.0
+> Accept: */*
+> 
+* Connection state changed (MAX_CONCURRENT_STREAMS updated)!
+< HTTP/2 200 
+HTTP/2 200 
+< date: Mon, 09 Mar 2020 17:53:59 GMT
+date: Mon, 09 Mar 2020 17:53:59 GMT
+< content-type: application/json
+content-type: application/json
+< content-length: 23
+content-length: 23
+< x-amzn-requestid: fa1900a8-9455-4701-9702-db073413d9a3
+x-amzn-requestid: fa1900a8-9455-4701-9702-db073413d9a3
+< x-amz-apigw-id: JIlbcHKbhcwFRXA=
+x-amz-apigw-id: JIlbcHKbhcwFRXA=
+< x-amzn-trace-id: Root=1-5e6682af-27618a800c64b7a841c94694;Sampled=0
+x-amzn-trace-id: Root=1-5e6682af-27618a800c64b7a841c94694;Sampled=0
 
-* Let's build via SAM
-```
-root$ sam build
-Building resource 'HelloWorldFunction'
-Running JavaMavenWorkflow:CopySource
-Running JavaMavenWorkflow:MavenBuild
-Running JavaMavenWorkflow:MavenCopyDependency
-Running JavaMavenWorkflow:MavenCopyArtifacts
-
-Build Succeeded
-
-Built Artifacts  : .aws-sam/build
-Built Template   : .aws-sam/build/template.yaml
-
-Commands you can use next
-=========================
-[*] Invoke Function: sam local invoke
-[*] Deploy: sam deploy --guided
-    
-root$ sam local invoke
-Invoking com.aws.demo.handler.LambdaMethodHandler::handleRequest (java8)
-
-Fetching lambci/lambda:java8 Docker container image............................................................................................................................................................................................................................................
-Mounting /...../lambda-spring-boot2-rest-api/.aws-sam/build/HelloWorldFunction as /var/task:ro,delegated inside runtime container
-START RequestId: 3c05587e-3261-1b8e-4dc8-b0718814b5a8 Version: $LATEST
-END RequestId: 3c05587e-3261-1b8e-4dc8-b0718814b5a8
-REPORT RequestId: 3c05587e-3261-1b8e-4dc8-b0718814b5a8  Init Duration: 1216.88 ms       Duration: 1705.90 ms    Billed Duration: 1800 ms        Memory Size: 512 MB     Max Memory Used: 75 MB  
-
-{"body":"{ \"message\": \"hello world\", \"location\": \"14.140.116.156\" }","headers":{"X-Custom-Header":"application/json","Content-Type":"application/json"},"statusCode":200}
-root$ 
-```
-
-
-
-
+< 
+* Connection #0 to host 7uoimcy0wa.execute-api.ap-south-1.amazonaws.com left intact
+{"text":"Hello World!"}
+````
