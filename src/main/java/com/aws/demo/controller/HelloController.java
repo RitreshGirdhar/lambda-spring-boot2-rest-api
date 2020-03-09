@@ -1,15 +1,25 @@
 package com.aws.demo.controller;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import com.aws.demo.model.Message;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/hello")
 public class HelloController {
-	@RequestMapping(method = RequestMethod.GET)
-	public String hello(@PathVariable String id) {
-		return "Hello World!";
+
+	@GetMapping(value = "/message",produces = MediaType.APPLICATION_JSON_VALUE)
+	public Message getMessage() {
+		System.out.println("getMessage:: Hello World!");
+		return new Message("Hello World!");
 	}
+
+	@PostMapping(value = "/message",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Message postMessage(@RequestBody Message message) {
+		System.out.println("postMessage::"+message.getText());
+		return new Message("Hello World!"+ message.getText());
+	}
+
 }

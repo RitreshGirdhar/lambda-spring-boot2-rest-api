@@ -22,28 +22,21 @@
 
 	<dependencies>
 
-<!--		<dependency>-->
-<!--			<groupId>com.amazonaws</groupId>-->
-<!--			<artifactId>aws-lambda-java-core</artifactId>-->
-<!--			<version>1.2.0</version>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.amazonaws.serverless</groupId>
 			<artifactId>aws-serverless-java-container-spring</artifactId>
 			<version>1.4</version>
 		</dependency>
-
-		<!--		<dependency>-->
-<!--			<groupId>com.amazonaws.serverless</groupId>-->
-<!--			<artifactId>aws-serverless-java-container-springboot2</artifactId>-->
-<!--			<version>1.4</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>com.amazonaws.serverless.archetypes</groupId>-->
-<!--			<artifactId>aws-serverless-springboot2-archetype</artifactId>-->
-<!--			<version>1.5-SNAPSHOT</version>-->
-<!--		</dependency>-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -58,8 +51,10 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<version>1.18.12</version>
+			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -75,42 +70,30 @@
 	</dependencies>
 
 	<build>
-		<finalName>lambda-spring-boot2-rest-api</finalName>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>3.1.0</version>
-					<configuration>
-						<escapeString>\</escapeString>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-archetype-plugin</artifactId>
-					<version>3.0.1</version>
-					<executions>
-						<execution>
-							<goals>
-								<goal>integration-test</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-
+<!--		<finalName>lambda-spring-boot2-rest-api</finalName>-->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-
+				<version>2.3</version>
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
-					<shadedArtifactAttached>true</shadedArtifactAttached>
-					<shadedClassifierName>aws</shadedClassifierName>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+<!--						<configuration>-->
+<!--							<artifactSet>-->
+<!--								<excludes>-->
+<!--									<exclude>org.apache.tomcat.embed:*</exclude>-->
+<!--								</excludes>-->
+<!--							</artifactSet>-->
+<!--						</configuration>-->
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

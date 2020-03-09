@@ -1,5 +1,0 @@
-com/aws/demo/handler/LambdaMethodHandler.class
-com/aws/demo/model/GatewayResponse.class
-com/aws/demo/DemoApplication.class
-com/aws/demo/controller/config/MvcConfig.class
-com/aws/demo/controller/HelloController.class
