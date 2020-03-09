@@ -1,4 +1,4 @@
-# Spring Boot2 Aws lambda Function Rest Api
+# Aws Java lambda Function - Spring Boot2 Rest Api Demo Application
 
 ### Pre-requisite
 * Basic knowledge of AWS/S3/Api/Gateway/Spring boot/Git
